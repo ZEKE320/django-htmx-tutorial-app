@@ -6,6 +6,8 @@
 
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
 
+  "appPort": ["8000:8000"],
+
   "containerEnv": {
     "POETRY_VIRTUALENVS_IN_PROJECT": "true"
   },
