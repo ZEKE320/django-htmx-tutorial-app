@@ -1,11 +1,17 @@
 [tool.poetry]
-package-mode = false
+name = "django-htmx-tutorial-app"
+authors = ["ZEKE320"]
+description = "A Django app that demonstrates how to use htmx with Django"
+version = "0.0.0"
+packages = [{ include = "airline_tickets", from = "app" }]
 
 [tool.poetry.dependencies]
 python = "^3.12"
 black = { extras = ["jupyter"], version = "*" }
 isort = "*"
 pytest = "*"
+django = "^5.0.6"
+psycopg = { extras = ["binary"], version = "^3.1.19" }
 
 
 [build-system]
