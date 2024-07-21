@@ -7,11 +7,10 @@ packages = [{ include = "airline_tickets", from = "app" }]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-black = { extras = ["jupyter"], version = "*" }
-isort = "*"
 pytest = "*"
 django = "^5.0.6"
 psycopg = { extras = ["binary"], version = "^3.1.19" }
+pydantic = "^2.8.2"
 
 
 [build-system]
