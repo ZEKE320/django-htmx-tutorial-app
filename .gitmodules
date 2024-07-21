@@ -1,0 +1,3 @@
+[submodule "ref/dentistry"]
+	path = ref/dentistry
+	url = https://github.com/rg-contributions/dentistry.git
