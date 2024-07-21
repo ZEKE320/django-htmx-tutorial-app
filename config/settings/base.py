@@ -31,6 +31,7 @@ DEBUG = True
 # Application definition
 
 INSTALLED_APPS = [
+    "app.airline_tickets.apps.AirlineTicketsConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -79,6 +80,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+
+
+AUTH_USER_MODEL = "airline_tickets.CustomerAccount"
 
 
 # Password validation

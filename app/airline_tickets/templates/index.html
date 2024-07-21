@@ -1,0 +1,74 @@
+{% extends "base.html" %} {% block content %}
+<h1 class="display-6">Search for Flights</h1>
+<div class="row g-2 px-4 py-3 border rounded">
+  <!-- <form action="" method="post"> -->
+  <div class="col-12 mt-0">
+    <datalist id="searchAirport">
+      {% for airport in available_airports %}
+      <option
+        value="{{ airport.name }} ({{ airport.iata_code }})"
+        data-airport-id="{{ airport.id }}"
+      ></option>
+      {% endfor %}
+    </datalist>
+    <div class="input-group">
+      <div class="form-floating">
+        <input
+          id="searchDepartureAirports"
+          class="form-control"
+          list="searchAirport"
+          placeholder="Departure airport"
+          required
+        />
+        <label for="searchDepartureAirport" class="form-label fs-6"
+          >Departure airport 🛫</label
+        >
+      </div>
+      <span class="input-group-text">→</span>
+      <div class="form-floating">
+        <input
+          id="searchArrivalAirport"
+          class="form-control"
+          list="searchAirport"
+          placeholder="Arrival airport"
+          required
+        />
+        <label for="searchArrivalAirport" class="form-label"
+          >Arrival airport 🛬</label
+        >
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-10">
+    <div class="input-group">
+      <div class="form-floating">
+        <input
+          id="searchDateStart"
+          class="form-control"
+          type="date"
+          max="3000-12-31"
+          value="2024-01-01"
+          required
+        />
+        <label for="searchDateStart" class="form-label">Date from</label>
+      </div>
+      <div class="form-floating">
+        <input
+          id="searchDateEnd"
+          class="form-control"
+          type="date"
+          max="3000-12-31"
+          value="2024-03-31"
+          required
+        />
+        <label for="searchDateEnd" class="form-label">Date to</label>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-sm-2">
+    <button class="btn btn-primary h-100 w-100" type="submit">Search</button>
+  </div>
+</div>
+<!-- </form> -->
+<h1 class="display-6">Reserved Flights</h1>
+{% endblock %}
