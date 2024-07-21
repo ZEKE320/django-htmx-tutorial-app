@@ -5,26 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Django",
-      "type": "debugpy",
-      "request": "launch",
-      "args": ["runserver"],
-      "django": true,
-      "autoStartBrowser": false,
-      "program": "${workspaceFolder}/manage.py",
-      "python": "${workspaceFolder}/.venv/bin/python"
-    },
-    {
       "name": "Launch Chrome",
       "request": "launch",
       "type": "chrome",
-      "url": "http://localhost:8000"
+      "url": "http://localhost:8000",
+      "webRoot": "${workspaceFolder}",
+      "userDataDir": true
     }
   ],
-  "compounds": [
-    {
-      "name": "Debug Application",
-      "configurations": ["Launch Django", "Launch Chrome"]
-    }
-  ]
+  "compounds": []
 }
