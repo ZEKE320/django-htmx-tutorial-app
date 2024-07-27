@@ -5,12 +5,30 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Chrome",
+      "name": "Debug: Chrome",
       "request": "launch",
       "type": "chrome",
       "url": "http://localhost:8000",
       "webRoot": "${workspaceFolder}",
       "userDataDir": true
+    },
+    {
+      "name": "Debug: Airline Tickets (Django)",
+      "type": "debugpy",
+      "request": "launch",
+      "args": ["runserver"],
+      "django": true,
+      "autoStartBrowser": false,
+      "program": "${workspaceFolder}/manage.py"
+    },
+    {
+      "name": "Debug: Dentistory (Django)",
+      "type": "debugpy",
+      "request": "launch",
+      "args": ["runserver"],
+      "django": true,
+      "autoStartBrowser": false,
+      "program": "${workspaceFolder}/ref/dentistry/manage.py"
     }
   ],
   "compounds": []
