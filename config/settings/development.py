@@ -12,3 +12,5 @@ DATABASES = {
 }
 
 ALLOWED_HOSTS = ["localhost", "desktop.k-tamura.me"]
+
+STATICFILES_DIRS = [BASE_DIR / ".." / "app" / "airline_tickets" / "static"]
