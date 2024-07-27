@@ -1,8 +1,8 @@
 {% extends "base.html" %} {% block content %}
-<h1 class="display-6">Search for Flights</h1>
-<div class="row g-2 px-4 py-3 border rounded">
-  <!-- <form action="" method="post"> -->
-  <div class="col-12 mt-0">
+<section class="my-2">
+  <h1 class="display-6">Search for Flights</h1>
+  <div class="px-4 py-3 border rounded">
+    <!-- <form action="" method="post"> -->
     <datalist id="searchAirport">
       {% for airport in available_airports %}
       <option
@@ -11,8 +11,8 @@
       ></option>
       {% endfor %}
     </datalist>
-    <div class="input-group">
-      <div class="form-floating">
+    <div class="row g-2">
+      <div class="form-floating col-12 col-md-6 col-xl">
         <input
           id="searchDepartureAirports"
           class="form-control"
@@ -24,8 +24,7 @@
           >Departure airport 🛫</label
         >
       </div>
-      <span class="input-group-text">→</span>
-      <div class="form-floating">
+      <div class="form-floating col-12 col-md-6 col-xl">
         <input
           id="searchArrivalAirport"
           class="form-control"
@@ -37,11 +36,7 @@
           >Arrival airport 🛬</label
         >
       </div>
-    </div>
-  </div>
-  <div class="col-12 col-sm-10">
-    <div class="input-group">
-      <div class="form-floating">
+      <div class="form-floating col-12 col-md-6 col-xl">
         <input
           id="searchDateStart"
           class="form-control"
@@ -52,7 +47,7 @@
         />
         <label for="searchDateStart" class="form-label">Date from</label>
       </div>
-      <div class="form-floating">
+      <div class="form-floating col-12 col-md-6 col-xl">
         <input
           id="searchDateEnd"
           class="form-control"
@@ -63,12 +58,18 @@
         />
         <label for="searchDateEnd" class="form-label">Date to</label>
       </div>
+      <div class="col-12 col-xl-2">
+        <button class="btn btn-primary w-100 h-100" type="submit">
+          <span>Searching...</span>
+          <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+        </button>
+      </div>
     </div>
   </div>
-  <div class="col-12 col-sm-2">
-    <button class="btn btn-primary h-100 w-100" type="submit">Search</button>
-  </div>
-</div>
+</section>
 <!-- </form> -->
-<h1 class="display-6">Reserved Flights</h1>
+<section class="my-2">
+  <h1 class="display-6">Reserved Flights</h1>
+  <p>Nothing</p>
+</section>
 {% endblock %}
