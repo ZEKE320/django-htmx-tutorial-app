@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "Airline Tickets",
+      "path": "."
+    },
+    {
+      "name": "Dentistry",
+      "path": "ref/dentistry"
+    }
+  ]
+}
