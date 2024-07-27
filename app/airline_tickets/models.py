@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -5,10 +7,19 @@ from django.db import models
 
 
 class CustomerAccount(AbstractUser):
-    pass
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+
+    REQUIRED_FIELDS = []
 
 
-class Customer(models.Model):
+class BaseModel(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+
+    class Meta:
+        abstract = True
+
+
+class Customer(BaseModel):
     customer_account = models.ForeignKey(CustomerAccount, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
 
@@ -16,14 +27,14 @@ class Customer(models.Model):
         return self.name
 
 
-class AirlineCompany(models.Model):
+class AirlineCompany(BaseModel):
     name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
 
 
-class AircraftModel(models.Model):
+class AircraftModel(BaseModel):
     name = models.CharField(max_length=50)
     num_economy_seats = models.PositiveIntegerField()
     num_business_seats = models.PositiveIntegerField()
@@ -33,14 +44,14 @@ class AircraftModel(models.Model):
         return self.name
 
 
-class AircraftSeatType(models.Model):
+class AircraftSeatType(BaseModel):
     name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
 
 
-class AircraftSeat(models.Model):
+class AircraftSeat(BaseModel):
     aircraft_model = models.ForeignKey(AircraftModel, on_delete=models.PROTECT)
     aircraft_seat_type = models.ForeignKey(AircraftSeatType, on_delete=models.PROTECT)
     name = models.CharField(max_length=10)
@@ -49,7 +60,7 @@ class AircraftSeat(models.Model):
         return f"{self.aircraft_model} {self.name} ({self.aircraft_seat_type})"
 
 
-class Aircraft(models.Model):
+class Aircraft(BaseModel):
     aircraft_model = models.ForeignKey(AircraftModel, on_delete=models.PROTECT)
     aircraft_company = models.ForeignKey(AirlineCompany, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
@@ -58,14 +69,14 @@ class Aircraft(models.Model):
         return f"{self.name} ({self.aircraft_company})"
 
 
-class Country(models.Model):
+class Country(BaseModel):
     name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
 
 
-class Prefecture(models.Model):
+class Prefecture(BaseModel):
     name = models.CharField(max_length=50)
     country = models.ForeignKey(Country, on_delete=models.PROTECT)
 
@@ -73,7 +84,7 @@ class Prefecture(models.Model):
         return f"{self.name}, {self.country}"
 
 
-class City(models.Model):
+class City(BaseModel):
     name = models.CharField(max_length=50)
     prefecture = models.ForeignKey(Prefecture, on_delete=models.PROTECT)
 
@@ -81,7 +92,7 @@ class City(models.Model):
         return f"{self.name}, {self.prefecture}"
 
 
-class Address(models.Model):
+class Address(BaseModel):
     city = models.ForeignKey(City, on_delete=models.PROTECT)
     address_line_1 = models.CharField(max_length=50)
     address_line_2 = models.CharField(max_length=50, blank=True)
@@ -91,7 +102,7 @@ class Address(models.Model):
         return f"{self.postal_code}, {self.address_line_1}, {self.city}"
 
 
-class Airport(models.Model):
+class Airport(BaseModel):
     address = models.ForeignKey(Address, on_delete=models.PROTECT)
     iata_code = models.CharField(
         max_length=3,
@@ -107,7 +118,7 @@ class Airport(models.Model):
         return f"{self.name}"
 
 
-class FlightRoute(models.Model):
+class FlightRoute(BaseModel):
     departure_airport = models.ForeignKey(
         Airport, on_delete=models.PROTECT, related_name="departure_airport"
     )
@@ -131,7 +142,7 @@ class FlightRoute(models.Model):
         return " -> ".join([airport.name for airport in airports])
 
 
-class Waypoint(models.Model):
+class Waypoint(BaseModel):
     airport = models.ForeignKey(Airport, on_delete=models.PROTECT)
     flight_route = models.ForeignKey(FlightRoute, on_delete=models.PROTECT)
     order = models.PositiveIntegerField()
@@ -140,7 +151,7 @@ class Waypoint(models.Model):
         return f"{self.airport} ({self.flight_route})"
 
 
-class Airline(models.Model):
+class Airline(BaseModel):
     name = models.CharField(max_length=50)
     flight_route = models.ForeignKey(FlightRoute, on_delete=models.PROTECT)
 
@@ -148,7 +159,7 @@ class Airline(models.Model):
         return f"{self.name} ({self.flight_route})"
 
 
-class Flight(models.Model):
+class Flight(BaseModel):
     aircraft = models.ForeignKey(Aircraft, on_delete=models.PROTECT)
     airline = models.ForeignKey(Airline, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
@@ -160,14 +171,14 @@ class Flight(models.Model):
         return self.name
 
 
-class AirlineTicketType(models.Model):
+class AirlineTicketType(BaseModel):
     name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
 
 
-class AirlineTicket(models.Model):
+class AirlineTicket(BaseModel):
     flight = models.ForeignKey(Flight, on_delete=models.PROTECT)
     airline_company = models.ForeignKey(AirlineCompany, on_delete=models.PROTECT)
     airline_ticket_type = models.ForeignKey(
@@ -181,7 +192,7 @@ class AirlineTicket(models.Model):
         return self.name
 
 
-class CustomerTicket(models.Model):
+class CustomerTicket(BaseModel):
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
     airline_ticket = models.ForeignKey(AirlineTicket, on_delete=models.PROTECT)
     aircraft_seat = models.ForeignKey(AircraftSeat, on_delete=models.PROTECT)
