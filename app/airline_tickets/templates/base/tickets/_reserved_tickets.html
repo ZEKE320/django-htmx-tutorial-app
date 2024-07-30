@@ -1,52 +1,54 @@
 <section>
   <h1 class="display-6">Reserved Tickets</h1>
-  {% for flight in tickets %}
-  <div class="card">
-    <div class="row g-0">
-      <div class="col-md-2">
-        <img class="img-fluid rounded w-100 h-100"
-             src="https://images.unsplash.com/photo-1466691623998-d607fab1ca29?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-             alt="Airport" style="object-fit: cover;">
-      </div>
-      <div class="col-md">
-        <div class="card-body">
-          <div class="card-title">
-            <div class="lead">{{ flight.departure_date }}</div>
-            <div class="h2">{{ flight.name }}</div>
-          </div>
-          <div class="card-text lead">
-            <div class="row">
-              <div class="col-12 col-md d-flex flex-column mb-2">
-                <div class="fw-bold mb-2">{{ flight.company_name }}</div>
-                <div>{{ flight.departure_time }}</div>
-                <div class="fw-bold ms-2">
-                  {{ flight.departure_airport }}
-                </div>
-                <div>↓</div>
-                <div>{{ flight.arrival_time }}</div>
-                <div class="fw-bold ms-2">
-                  {{flight.arrival_airport }}
-                </div>
-              </div>
-              <div class="col-12 col-md d-flex flex-column">
-                <div class="fw-bold">Reservation Details</div>
-                <div class="ms-2 d-flex gap-2 flex-column">
-                  <div class="d-flex gap-2 flex-wrap justify-content-between">
-                    <div>Seat type</div>
-                    <div class="ms-auto fw-bold">{{ flight.seat_type }}</div>
+  <div class="d-flex flex-column gap-3">
+    {% for flight in tickets %}
+    <div class="card">
+      <div class="row g-0">
+        <div class="col-md-2">
+          <img class="img-fluid rounded w-100 h-100"
+               src="https://images.unsplash.com/photo-1466691623998-d607fab1ca29?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+               alt="Airport" style="object-fit: cover;">
+        </div>
+        <div class="col-md">
+          <div class="card-body">
+            <div class="card-title">
+              <div class="lead">{{ flight.departure_date }}</div>
+              <div class="h2">{{ flight.name }}</div>
+            </div>
+            <div class="card-text lead">
+              <div class="row">
+                <div class="col-12 col-md d-flex flex-column mb-2">
+                  <div class="fw-bold mb-2">{{ flight.company_name }}</div>
+                  <div>{{ flight.departure_time }}</div>
+                  <div class="fw-bold ms-2">
+                    {{ flight.departure_airport }}
                   </div>
-                  <div class="d-flex gap-2 flex-wrap justify-content-between">
-                    <div>Seat name</div>
-                    <div class="ms-auto fw-bold">{{ flight.seat_name }}</div>
+                  <div>↓</div>
+                  <div>{{ flight.arrival_time }}</div>
+                  <div class="fw-bold ms-2">
+                    {{flight.arrival_airport }}
                   </div>
-                  <div class="d-flex gap-2 flex-wrap justify-content-between">
-                    <div>Reserved at</div>
-                    <div class="ms-auto fw-bold">{{ flight.reserved_date }}
+                </div>
+                <div class="col-12 col-md d-flex flex-column">
+                  <div class="fw-bold">Reservation Details</div>
+                  <div class="ms-2 d-flex gap-2 flex-column">
+                    <div class="d-flex gap-2 flex-wrap justify-content-between">
+                      <div>Seat type</div>
+                      <div class="ms-auto fw-bold">{{ flight.seat_type }}</div>
                     </div>
-                  </div>
-                  <div class="d-flex gap-2 flex-wrap justify-content-between">
-                    <div>Canceled</div>
-                    <div class="ms-auto fw-bold">{{ flight.canceled }}
+                    <div class="d-flex gap-2 flex-wrap justify-content-between">
+                      <div>Seat name</div>
+                      <div class="ms-auto fw-bold">{{ flight.seat_name }}</div>
+                    </div>
+                    <div class="d-flex gap-2 flex-wrap justify-content-between">
+                      <div>Reserved at</div>
+                      <div class="ms-auto fw-bold">{{ flight.reserved_date }}
+                      </div>
+                    </div>
+                    <div class="d-flex gap-2 flex-wrap justify-content-between">
+                      <div>Canceled</div>
+                      <div class="ms-auto fw-bold">{{ flight.canceled }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -56,8 +58,8 @@
         </div>
       </div>
     </div>
+    {% empty %}
+    <div>No reservations.</div>
+    {% endfor %}
   </div>
-  {% empty %}
-  <div>No reservations.</div>
-  {% endfor %}
 </section>
