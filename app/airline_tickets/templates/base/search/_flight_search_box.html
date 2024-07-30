@@ -1,0 +1,66 @@
+<section class="my-2">
+  <h1 class="display-6">Search Flights</h1>
+  <form action="search" method="get">
+    <div class="px-4 py-3 border rounded">
+      <datalist id="searchAirport">
+        {% for airport in available_airports %}
+        <option value="{{ airport.name }} - {{ airport.iata_code }}"></option>
+        {% endfor %}
+      </datalist>
+      <div class="row g-2">
+        <div class="form-floating col-12 col-md-6 col-xl">
+          <input type="text"
+                 name="{{ flight_search_form.departure_airport.html_name }}"
+                 value="{{ flight_search_form.departure_airport.value }}"
+                 id="{{ flight_search_form.departure_airport.auto_id }}"
+                 class="form-control" list="searchAirport"
+                 placeholder="{{ flight_search_form.departure_airport.label }}"
+                 />
+          <label for="{{ flight_search_form.departure_airport.id_for_label }}"
+                 class="form-label fs-6">{{ flight_search_form.departure_airport.label }}</label>
+        </div>
+        <div class="form-floating col-12 col-md-6 col-xl">
+          <input type="text"
+                 name="{{ flight_search_form.arrival_airport.html_name }}"
+                 value="{{ flight_search_form.arrival_airport.value }}"
+                 id="{{ flight_search_form.arrival_airport.auto_id }}"
+                 class="form-control" list="searchAirport"
+                 placeholder="{{ flight_search_form.arrival_airport.label }}" />
+          <label for="{{ flight_search_form.arrival_airport.id_for_label }}"
+                 class="form-label">{{ flight_search_form.arrival_airport.label }}</label>
+        </div>
+        <div class="form-floating col-12 col-md-6 col-xl">
+          <input type="date" name="{{ flight_search_form.date_from.html_name }}"
+                 value="{{ flight_search_form.date_from.value }}"
+                 id="{{ flight_search_form.date_from.auto_id }}"
+                 class="form-control" max="3000-12-31" />
+          <label for="{{ flight_search_form.date_from.id_for_label }}"
+                 class="form-label">{{ flight_search_form.date_from.label }}</label>
+        </div>
+        <div class="form-floating col-12 col-md-6 col-xl">
+          <input type="date" name="{{ flight_search_form.date_to.html_name }}"
+                 value="{{ flight_search_form.date_to.value }}"
+                 id="{{ flight_search_form.date_to.auto_id }}"
+                 class="form-control" max="3000-12-31" />
+          <label for="{{ flight_search_form.date_to.id_for_label }}"
+                 class="form-label">{{ flight_search_form.date_to.label }}</label>
+        </div>
+        <div class="col-12 col-xl-2">
+          <button class="btn btn-primary w-100 h-100" type="submit">
+            <span id="flightSearchBtn">Search</span>
+            <!-- <span>Searching...</span>
+            <span
+              class="spinner-grow spinner-grow-sm"
+              aria-hidden="true"
+            ></span> -->
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+<script defer>
+  function clearInput(e) {
+
+  }
+</script>

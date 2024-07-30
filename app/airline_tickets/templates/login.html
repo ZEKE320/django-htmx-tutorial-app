@@ -1,44 +1,37 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base/_base.html" %} {% block content %}
 <h1 class="display-6">Login</h1>
 <div style="width: 20em; max-width: 100%">
   <form class="d-grid gap-2 align-items-center" action="login" method="post">
     {% csrf_token %}{% if error_msg or form.non_field_errors %}
     <div class="alert alert-danger mb-0">
       <span>{{ error_msg|safe }}</span>
-      <span>{{ form.non_field_errors }} </span>
+      <span>{{ form.non_field_errors }}</span>
     </div>
     {% endif %}
     <div class="form-floating">
-      <input
-        type="text"
-        id="{{ form.username.auto_id }}"
-        class="form-control"
-        name="{{ form.username.html_name }}"
-        placeholder="User name"
-        autocomplete="username"
-        required
-      />
-      <label for="username">User name</label>
+      <input type="text" name="{{ form.username.html_name }}"
+             value="{{ form.username.value }}" id="{{ form.username.auto_id }}"
+             class="form-control" placeholder="{{ form.username.label }}"
+             autocomplete="username"
+             maxlength="{{ form.username.field.max_length }}"
+             required="{{ form.username.field.required }}" />
+      <label for="username">{{ form.username.label }}</label>
       <div class="invalid-feedback d-block">{{ form.username.errors }}</div>
     </div>
     <div class="form-floating">
-      <input
-        type="password"
-        id="{{ form.password.auto_id }}"
-        class="form-control"
-        name="{{ form.password.html_name }}"
-        placeholder="Password"
-        autocomplete="current-password"
-        required
-      />
-      <label for="password">Password</label>
+      <input type="password" name="{{ form.password.html_name }}"
+             id="{{ form.password.auto_id }}" class="form-control"
+             placeholder="{{ form.password.label }}"
+             autocomplete="current-password"
+             maxlength="{{ form.password.field.max_length }}"
+             required="{{ form.password.field.required }}" />
+      <label for="password">{{ form.password.label }}</label>
       <div class="invalid-feedback d-block">{{ form.password.errors }}</div>
     </div>
     <button class="btn btn-primary w-100" type="submit">Login</button>
   </form>
   <p class="mt-5">Don't have an account?</p>
-  <a class="btn btn-success w-100" href="register_account"
-    >Register new account</a
-  >
+  <a class="btn btn-success w-100" href="/register_account">Register new
+    account</a>
 </div>
 {% endblock %} {% block scripts %} {% endblock %}

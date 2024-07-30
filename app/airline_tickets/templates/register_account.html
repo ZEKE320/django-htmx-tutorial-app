@@ -1,11 +1,8 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base/_base.html" %} {% block content %}
 <h1 class="display-6">Register account</h1>
 <div style="width: 20em; max-width: 100%">
-  <form
-    class="d-grid gap-2 align-items-center"
-    action="register_account"
-    method="post"
-  >
+  <form class="d-grid gap-2 align-items-center"
+        action="/register_account" method="post">
     {% csrf_token %} {% if error_msg or form.non_field_errors %}
     <div class="alert alert-danger mb-0">
       <span>{{ error_msg|safe }}</span>
@@ -13,44 +10,39 @@
     </div>
     {% endif %}
     <div class="form-floating">
-      <input
-        type="text"
-        id="{{ form.reg_username.auto_id }}"
-        class="form-control"
-        name="{{ form.reg_username.html_name }}"
-        placeholder="User name"
-        autocomplete="username"
-        required
-      />
-      <label for="{{form.reg_username.id_for_label }}">User name</label>
+      <input type="text" name="{{ form.reg_username.html_name }}"
+             value="{{ form.reg_username.value }}"
+             id="{{ form.reg_username.auto_id }}" class="form-control"
+             placeholder="{{ form.reg_username.label }}" autocomplete="username"
+             minlength="{{ form.reg_username.field.min_length }}"
+             maxlength="{{ form.reg_username.field.max_length }}"
+             required="{{ form.reg_username.field.required }}" />
+      <label
+             for="{{form.reg_username.id_for_label }}">{{ form.reg_username.label }}</label>
       <div class="invalid-feedback d-block">{{ form.reg_username.errors }}</div>
     </div>
     <div class="form-floating">
-      <input
-        type="password"
-        id="{{ form.reg_password.auto_id }}"
-        class="form-control"
-        name="{{ form.reg_password.html_name }}"
-        placeholder="Password"
-        autocomplete="new-password"
-        required
-      />
-      <label for="{{ form.reg_password.id_for_label }}">Password</label>
+      <input type="password" name="{{ form.reg_password.html_name }}"
+             id="{{ form.reg_password.auto_id }}" class="form-control"
+             placeholder="{{ form.reg_password.label }}"
+             autocomplete="new-password"
+             minlength="{{ form.reg_password.field.min_length }}"
+             maxlength="{{ form.reg_password.field.max_length }}"
+             required="{{ form.reg_password.field.required }}" />
+      <label
+             for="{{ form.reg_password.id_for_label }}">{{ form.reg_password.label }}</label>
       <div class="invalid-feedback d-block">{{ form.reg_password.errors }}</div>
     </div>
     <div class="form-floating">
-      <input
-        type="password"
-        id="{{ form.reg_password_again.auto_id }}"
-        class="form-control"
-        name="{{ form.reg_password_again.html_name }}"
-        placeholder="Type password again"
-        autocomplete="new-password"
-        required
-      />
-      <label for="{{ form.reg_password_again.id_for_label }}"
-        >Type password again</label
-      >
+      <input type="password" name="{{ form.reg_password_again.html_name }}"
+             id="{{ form.reg_password_again.auto_id }}" class="form-control"
+             placeholder="{{ form.reg_password_again.label }}"
+             autocomplete="new-password"
+             minlength="{{ form.reg_password_again.field.min_length }}"
+             maxlength="{{ form.reg_password_again.field.max_length }}"
+             required="{{ form.reg_password_again.field.required }}" />
+      <label
+             for="{{ form.reg_password_again.id_for_label }}">{{ form.reg_password_again.label }}</label>
       <div class="invalid-feedback d-block">
         {{ form.reg_password_again.errors }}
       </div>
