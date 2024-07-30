@@ -1,0 +1,140 @@
+{% extends "base/_base.html" %} {% block content %}
+<section>
+  <h1 class="display-6">Flight Detail</h1>
+  <div class="card">
+    <img class="card-img-top"
+         src="https://images.unsplash.com/photo-1466691623998-d607fab1ca29?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+         alt="Airport" style="height: 200px; object-fit: cover;">
+    <div class="card-body">
+      <div class="card-title">
+        <div class="lead">{{ flight.departure_date }}</div>
+        <div class="h2">{{ flight.name }}</div>
+      </div>
+      <div class="card-text lead">
+        <div class="row">
+          <div class="col-12 col-md border-top py-2">
+            <div>
+              <div class="fw-bold mb-2">{{ flight.company_name }}</div>
+              <div>{{ flight.departure_time }}</div>
+              <div class="fw-bold ms-2">
+                {{ flight.departure_airport }}
+              </div>
+              <div>↓</div>
+              <div>{{ flight.arrival_time }}</div>
+              <div class="fw-bold ms-2">
+                {{flight.arrival_airport }}
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md border-top py-2">
+            <div class="fw-bold">Reservation Status</div>
+            <div class="d-flex flex-column m-2 gap-2">
+              <div
+                   class="d-flex flex-wrap justify-content-between align-items-center">
+                <div class="d-flex gap-2">
+                  <span>
+                    Economy class
+                  </span>
+                  <span>
+                    ( {{ flight.economy_class_status.available }} /
+                    {{ flight.economy_class_status.total }} )
+                  </span>
+                </div>
+                <form action="/flight/{{flight.flight_id}}/reserve"
+                      method="post"
+                      class="d-flex gap-2 align-items-center justify-content-end ms-auto">
+                  {% csrf_token %}
+                  <input type="hidden"
+                         name="{{ form.airline_ticket_id.html_name }}"
+                         value="{{ flight.economy_class_status.airline_ticket_id }}">
+                  <select name="{{ form.seat_id.html_name }}"
+                          class="form-select" style="width: 6em" required>
+                    {% for seat in flight.economy_class_status.available_seats %}
+                    <option value="{{seat.id}}">{{seat.name}}</option>
+                    {% empty %}
+                    <option disabled>---</option>
+                    {% endfor %}
+                  </select>
+                  <button type="submit" class="btn btn-success">Reserve</button>
+                </form>
+              </div>
+              <div
+                   class="d-flex flex-wrap justify-content-between align-items-center">
+                <div class="d-flex gap-2">
+                  <span>
+                    Business class
+                  </span>
+                  <span>
+                    ( {{ flight.business_class_status.available }} /
+                    {{ flight.business_class_status.total }} )
+                  </span>
+                </div>
+                <form action="/flight/{{flight.flight_id}}/reserve"
+                      method="post"
+                      class="d-flex gap-2 align-items-center justify-content-end ms-auto"
+                      required>
+                  {% csrf_token %}
+                  <input type="hidden"
+                         name="{{ form.airline_ticket_id.html_name }}"
+                         value="{{ flight.business_class_status.airline_ticket_id }}">
+                  <select name="{{ form.seat_id.html_name }}" id=""
+                          class="form-select" style="width: 6em">
+                    {% for seat in flight.business_class_status.available_seats %}
+                    <option value="{{seat.id}}">{{seat.name}}</option>
+                    {% empty %}
+                    <option disabled>---</option>
+                    {% endfor %}
+                  </select>
+                  <button type="submit" class="btn btn-success">Reserve</button>
+                </form>
+              </div>
+              <div
+                   class="d-flex flex-wrap justify-content-between align-items-center">
+                <div class="d-flex gap-2">
+                  <span>
+                    First class
+                  </span>
+                  <span>
+                    ( {{ flight.first_class_status.available }} /
+                    {{ flight.first_class_status.total }} )
+                  </span>
+                </div>
+                <form action="/flight/{{flight.flight_id}}/reserve"
+                      method="post"
+                      class="d-flex gap-2 align-items-center justify-content-end ms-auto">
+                  {% csrf_token %}
+                  <input type="hidden"
+                         name="{{ form.airline_ticket_id.html_name }}"
+                         value="{{ flight.first_class_status.airline_ticket_id }}">
+                  <select name="{{ form.seat_id.html_name }}" id=""
+                          class="form-select" style="width: 6em" required>
+                    {% for seat in flight.first_class_status.available_seats %}
+                    <option value="{{seat.id}}">{{seat.name}}</option>
+                    {% empty %}
+                    <option disabled>---</option>
+                    {% endfor %}
+                  </select>
+                  <button type="submit" class="btn btn-success">Reserve</button>
+                </form>
+              </div>
+              <div class="invalid-feedback d-flex flex-column">
+                <!-- {% for e in form.seat_id.errors %}
+                <div class="ms-auto">{{ e }}</div>
+                {% endfor %} -->
+                {% if error_msg %}
+                <div class="ms-auto">{{ error_msg }}</div>
+                {% endif %}
+              </div>
+              {% if form.non_field_errors %}
+              <div class="alert alert-danger mb-0">
+                {{ form.non_field_errors }}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

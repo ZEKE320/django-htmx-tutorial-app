@@ -52,3 +52,40 @@ def search_page(
             "flights": flight_search_result,
         },
     )
+
+
+def flight_page(
+    request: HttpRequest,
+    id: str,
+    form: FlightReserveForm = FlightReserveForm(),
+    error_msg: str | None = None,
+) -> HttpResponse:
+    flight = Flight.objects.get(id=id)
+    seat_status_by_type = get_flight_seat_availability_by_type(flight)
+
+    flight_detail_dto = FlightDetailDto(
+        flight_id=flight.id,
+        name=flight.name,
+        company_name=flight.airline_company.name,
+        economy_class_status=seat_status_by_type["Economy class"],
+        business_class_status=seat_status_by_type["Business class"],
+        first_class_status=seat_status_by_type["First class"],
+        departure_airport=flight.airline.flight_route.departure_airport.name,
+        arrival_airport=flight.airline.flight_route.arrival_airport.name,
+        departure_date=flight.departure_time.strftime("%Y/%m/%d"),
+        departure_time=flight.departure_time.strftime("%H:%M"),
+        arrival_date=flight.arrival_time.strftime("%Y/%m/%d"),
+        arrival_time=flight.arrival_time.strftime("%H:%M"),
+    )
+
+    return render(
+        request,
+        "flight.html",
+        {
+            "flight": flight_detail_dto,
+            "form": form,
+            "error_msg": error_msg,
+        },
+    )
+
+

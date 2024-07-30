@@ -27,4 +27,9 @@ urlpatterns = [
         app_view.search_page,
         name="search",
     ),
+    path(
+        "flight/<str:id>",
+        app_view.flight_page,
+        name="flight",
+    ),
 ]
