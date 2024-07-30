@@ -197,10 +197,7 @@ class AirlineTicketType(BaseModel):
 class AirlineTicket(BaseModel):
     flight = models.ForeignKey(Flight, on_delete=models.PROTECT)
     airline_company = models.ForeignKey(AirlineCompany, on_delete=models.PROTECT)
-    airline_ticket_type = models.ForeignKey(
-        AirlineTicketType,
-        on_delete=models.PROTECT,
-    )
+    aircraft_seat_type = models.ForeignKey(AircraftSeatType, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
     price = models.PositiveIntegerField()
 
