@@ -171,6 +171,21 @@ class Flight(BaseModel):
         return self.name
 
 
+class FlightSeat(BaseModel):
+    flight = models.ForeignKey(Flight, on_delete=models.PROTECT)
+    aircraft_seat = models.ForeignKey(AircraftSeat, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return f"{self.aircraft_seat} ({self.flight})"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["flight", "aircraft_seat"], name="unique_flight_aircraft_seat"
+            )
+        ]
+
+
 class AirlineTicketType(BaseModel):
     name = models.CharField(max_length=50)
 
