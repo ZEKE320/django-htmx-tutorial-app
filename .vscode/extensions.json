@@ -19,7 +19,8 @@
     "tamasfe.even-better-toml",
     "visualstudioexptteam.vscodeintellicode-completions",
     "yzane.markdown-pdf",
-    "yzhang.markdown-all-in-one"
+    "yzhang.markdown-all-in-one",
+    "github.copilot"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": ["ms-python.autopep8"]
