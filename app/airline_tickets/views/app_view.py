@@ -19,7 +19,7 @@ from django.shortcuts import redirect, render
 
 def top_page(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated:
-        get_customer_tickets_dto(request.user)
+        customer_tickets_dto = get_customer_tickets_dto(request.user)
     else:
         customer_tickets_dto = []
 
