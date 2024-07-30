@@ -158,3 +158,21 @@ def get_available_airports():
     )
 
     return airport_list
+
+
+@transaction.atomic
+def reserve_flight_data(
+    form: FlightReserveForm, customer_account: CustomerAccount
+) -> None:
+    airline_ticket = AirlineTicket.objects.get(
+        id=form.cleaned_data["airline_ticket_id"]
+    )
+    flight_seat = FlightSeat.objects.get(id=form.cleaned_data["seat_id"])
+    purchase_date = datetime.now()
+
+    CustomerTicket.objects.create(
+        customer_account=customer_account,
+        airline_ticket=airline_ticket,
+        flight_seat=flight_seat,
+        purchase_date=purchase_date,
+    )

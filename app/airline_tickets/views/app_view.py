@@ -89,3 +89,21 @@ def flight_page(
     )
 
 
+@login_required(login_url="login")
+def reserve_flight(
+    request: HttpRequest,
+    flight_id: str,
+) -> HttpResponse:
+    if request.method != "POST":
+        return redirect(f"/flight/{flight_id}", permanent=True)
+
+    form = FlightReserveForm(request.POST)
+
+    if not form.is_valid():
+        return flight_page(request, flight_id, form, "Please select a seat.")
+
+    customer_account = request.user
+    reserve_flight_data(form, customer_account)
+
+    return redirect("reserved_ticket", permanent=True)
+

@@ -32,4 +32,9 @@ urlpatterns = [
         app_view.flight_page,
         name="flight",
     ),
+    path(
+        "flight/<str:flight_id>/reserve",
+        app_view.reserve_flight,
+        name="reserve_flight",
+    ),
 ]
