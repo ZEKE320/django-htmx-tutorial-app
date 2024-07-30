@@ -160,6 +160,40 @@ def get_available_airports():
     return airport_list
 
 
+def get_customer_tickets_dto(
+    customer_account: CustomerAccount,
+) -> list[CustomerTicketDto]:
+    customer_tickets = CustomerTicket.objects.filter(customer_account=customer_account)
+    customer_tickets_dto = sorted(
+        [
+            CustomerTicketDto(
+                ticket_id=ct.id,
+                flight_id=ct.airline_ticket.flight.id,
+                name=ct.airline_ticket.name,
+                company_name=ct.airline_ticket.airline_company.name,
+                seat_type=ct.flight_seat.aircraft_seat.aircraft_seat_type.name,
+                seat_name=ct.flight_seat.aircraft_seat.name,
+                reserved_date=ct.purchase_date.strftime("%Y/%m/%d %H:%M"),
+                departure_airport=ct.airline_ticket.flight.airline.flight_route.departure_airport.name,
+                departure_date=ct.airline_ticket.flight.departure_time.strftime(
+                    "%Y/%m/%d"
+                ),
+                departure_time=ct.airline_ticket.flight.departure_time.strftime(
+                    "%H:%M"
+                ),
+                arrival_airport=ct.airline_ticket.flight.airline.flight_route.arrival_airport.name,
+                arrival_date=ct.airline_ticket.flight.arrival_time.strftime("%Y/%m/%d"),
+                arrival_time=ct.airline_ticket.flight.arrival_time.strftime("%H:%M"),
+                canceled="Yes" if ct.canceled else "No",
+            )
+            for ct in customer_tickets
+        ],
+        key=lambda ctd: (ctd.departure_date, ctd.departure_time),
+    )
+
+    return customer_tickets_dto
+
+
 @transaction.atomic
 def reserve_flight_data(
     form: FlightReserveForm, customer_account: CustomerAccount

@@ -107,3 +107,9 @@ def reserve_flight(
 
     return redirect("reserved_ticket", permanent=True)
 
+
+@login_required(login_url="login")
+def reserved_ticket_page(request: HttpRequest) -> HttpResponse:
+    customer_tickets_dto = get_customer_tickets_dto(request.user)
+
+    return render(request, "reserved_ticket.html", {"tickets": customer_tickets_dto})
