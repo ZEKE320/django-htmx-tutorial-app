@@ -1,3 +1,4 @@
+from . import base
 from .base import *  # noqa: F403
 
 DATABASES = {
@@ -13,4 +14,4 @@ DATABASES = {
 
 ALLOWED_HOSTS = ["localhost", "desktop.k-tamura.me"]
 
-STATICFILES_DIRS = [BASE_DIR / ".." / "app" / "airline_tickets" / "static"]
+STATICFILES_DIRS = [base.BASE_DIR / ".." / "app" / "airline_tickets" / "static"]
