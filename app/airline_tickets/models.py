@@ -160,6 +160,7 @@ class Airline(BaseModel):
 
 
 class Flight(BaseModel):
+    airline_company = models.ForeignKey(AirlineCompany, on_delete=models.PROTECT)
     aircraft = models.ForeignKey(Aircraft, on_delete=models.PROTECT)
     airline = models.ForeignKey(Airline, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
