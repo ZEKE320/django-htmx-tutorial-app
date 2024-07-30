@@ -22,4 +22,9 @@ urlpatterns = [
         account_view.do_logout,
         name="logout",
     ),
+    path(
+        "search",
+        app_view.search_page,
+        name="search",
+    ),
 ]

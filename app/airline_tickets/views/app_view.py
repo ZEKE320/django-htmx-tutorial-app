@@ -32,3 +32,23 @@ def top_page(request: HttpRequest) -> HttpResponse:
             "tickets": customer_tickets_dto,
         },
     )
+
+
+def search_page(
+    request: HttpRequest,
+    error_msg: str | None = None,
+) -> HttpResponse:
+    form = FlightSearchForm(request.GET) if request.GET else FlightSearchForm()
+
+    flight_search_result = search_flights(form) if form.is_valid() else []
+
+    return render(
+        request,
+        "search.html",
+        {
+            "error_msg": error_msg,
+            "available_airports": get_available_airports(),
+            "flight_search_form": form,
+            "flights": flight_search_result,
+        },
+    )
