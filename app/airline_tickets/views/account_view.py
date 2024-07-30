@@ -1,50 +1,26 @@
-from airline_tickets.dto.flight_search_dto import AirportDto
-from airline_tickets.forms import LoginForm, RegisterAccountForm
-from airline_tickets.models import Airport
+from airline_tickets.forms.account_form import LoginForm, RegisterAccountForm
 from airline_tickets.services.account_service import register_account_data
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
-# Create your views here.
-
-
-def top(request: HttpRequest) -> HttpResponse:
-    available_airports = Airport.objects.all()
-    airport_list = [
-        AirportDto(
-            name=airport.name,
-            country=airport.address.city.prefecture.country.name,
-            prefecture=airport.address.city.prefecture.name,
-            iata_code=airport.iata_code,
-        )
-        for airport in available_airports
-    ]
-
-    username = request.user.get_username() if request.user.is_authenticated else ""
-
-    return render(
-        request,
-        "top.html",
-        {
-            "available_airports": airport_list,
-            "username": username,
-        },
-    )
-
-
-def search(request: HttpRequest) -> HttpResponse:
-    return HttpResponse("Search page")
-
 
 def register_account_page(
     request: HttpRequest,
     registered_ok: bool = False,
-    error_msg: str = "",
+    error_msg: str | None = None,
     register_form: RegisterAccountForm = RegisterAccountForm(),
 ) -> HttpResponse:
+    if not (
+        "login" in request.META.get("HTTP_REFERER")
+        or "register_account" in request.META.get("HTTP_REFERER")
+    ):
+        request.session["next_url"] = request.META.get("HTTP_REFERER")
+
+    next_url = request.session.get("next_url", "/")
+
     if request.user.is_authenticated:
-        return redirect("top", permanent=True)
+        return redirect(next_url, permanent=True)
 
     if request.method == "POST":
         return do_register_account(request)
@@ -61,9 +37,14 @@ def register_account_page(
 
 
 def do_register_account(request: HttpRequest) -> HttpResponse:
+    next_url = request.session.get("next_url", "/")
+
     form = RegisterAccountForm(request.POST)
 
     try:
+        if not form.is_valid():
+            raise RuntimeError(f"Error: {str(form.errors)}")
+
         username, password = register_account_data(form)
         user = authenticate(request, username=username, password=password)
         if user is None:
@@ -71,19 +52,33 @@ def do_register_account(request: HttpRequest) -> HttpResponse:
 
     except RuntimeError as e:
         request.method = "GET"
-        return register_account_page(request, e is None, str(e), register_form=form)
+        return register_account_page(
+            request=request,
+            registered_ok=e is None,
+            error_msg=str(e),
+            register_form=form,
+        )
 
     login(request, user)
-    return redirect("top", permanent=True)
+
+    return redirect(next_url, permanent=True)
 
 
 def login_page(
     request: HttpRequest,
-    error_msg: str = "",
+    error_msg: str | None = None,
     login_form: LoginForm = LoginForm(),
 ) -> HttpResponse:
+    if not (
+        "login" in request.META.get("HTTP_REFERER")
+        or "register_account" in request.META.get("HTTP_REFERER")
+    ):
+        request.session["next_url"] = request.META.get("HTTP_REFERER")
+
+    next_url = request.session.get("next_url", "/")
+
     if request.user.is_authenticated:
-        return redirect("top", permanent=True)
+        return redirect(next_url, permanent=True)
 
     if request.method == "POST":
         return do_login(request)
@@ -91,14 +86,13 @@ def login_page(
     return render(
         request,
         "login.html",
-        {
-            "error_msg": error_msg,
-            "form": login_form,
-        },
+        {"error_msg": error_msg, "form": login_form},
     )
 
 
 def do_login(request: HttpRequest) -> HttpResponse:
+    next_url = request.session.get("next_url", "/")
+
     form = LoginForm(request.POST)
     try:
         if not form.is_valid():
@@ -107,6 +101,7 @@ def do_login(request: HttpRequest) -> HttpResponse:
         username = form.cleaned_data["username"]
         password = form.cleaned_data["password"]
         user = authenticate(request, username=username, password=password)
+
         if user is None:
             raise RuntimeError()
 
@@ -116,7 +111,8 @@ def do_login(request: HttpRequest) -> HttpResponse:
         return login_page(request, error, form)
 
     login(request, user)
-    return redirect("top", permanent=True)
+
+    return redirect(next_url, permanent=True)
 
 
 def do_logout(request: HttpRequest):
