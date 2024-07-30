@@ -1,7 +1,9 @@
 from airline_tickets.forms import RegisterAccountForm
 from airline_tickets.models import CustomerAccount
+from django.db import transaction
 
 
+@transaction.atomic
 def register_account_data(form: RegisterAccountForm):
     if not form.is_valid():
         raise RuntimeError(f"Error: {str(form.errors)}")
