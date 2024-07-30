@@ -208,11 +208,11 @@ class AirlineTicket(BaseModel):
 
 
 class CustomerTicket(BaseModel):
-    customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
+    customer_account = models.ForeignKey(CustomerAccount, on_delete=models.PROTECT)
     airline_ticket = models.ForeignKey(AirlineTicket, on_delete=models.PROTECT)
     aircraft_seat = models.ForeignKey(AircraftSeat, on_delete=models.PROTECT)
     purchase_date = models.DateTimeField()
     canceled = models.BooleanField()
 
     def __str__(self):
-        return f"{self.airline_ticket} ({self.customer})"
+        return f"{self.airline_ticket} ({self.customer_account})"
