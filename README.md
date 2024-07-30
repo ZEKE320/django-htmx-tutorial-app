@@ -58,6 +58,12 @@ Suggestions for the user interface:
 
 ## Database Structure
 
+### Image
+
+![img](./docs/imgs/airline_tickets%20-%20public.png)
+
+### Mermaid
+
 ```mermaid
 erDiagram
   CUSTOMER_ACCOUNT {
