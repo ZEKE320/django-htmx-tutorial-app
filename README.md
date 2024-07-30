@@ -1,5 +1,15 @@
 # Airline Tickets
 
+## Images
+
+### Desktop
+
+![Desktop](docs/imgs/desktop.gif)
+
+### Smartphone
+
+![Smartphone](docs/imgs/smartphone.gif)
+
 ## Overview
 
 The proposed web application allows the user to book flights. The user can:
