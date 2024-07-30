@@ -1,1 +1,8 @@
-{}
+{
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "html.format.templating": true,
+  "html.format.wrapAttributes": "aligned-multiple",
+  "html.format.wrapLineLength": 80
+}
