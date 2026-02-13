@@ -8,7 +8,7 @@ packages = [{ include = "airline_tickets", from = "app" }]
 [tool.poetry.dependencies]
 python = "^3.12"
 pytest = "*"
-django = "^5.0.6"
+django = "^5.1.15"
 psycopg = { extras = ["binary"], version = "^3.1.19" }
 pydantic = "^2.8.2"
 ruff = "^0.5.5"
